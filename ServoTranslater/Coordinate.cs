@@ -50,10 +50,10 @@ namespace ServoTranslater
         {
             dataGridView.Rows.Add();
             DataGridViewRow dataGridViewRow = dataGridView.Rows[dataGridView.RowCount - 1];
-            dataGridViewRow.Cells["Alpha"].Value = Alpha;
-            dataGridViewRow.Cells["Gamma"].Value = Gamma;
-            dataGridViewRow.Cells["Fi"].Value = Fi;
-            dataGridViewRow.Cells["Teta"].Value = Teta;
+            dataGridViewRow.Cells["Alpha"].Value = 180 / Math.PI * Alpha;
+            dataGridViewRow.Cells["Gamma"].Value = 180 / Math.PI * Gamma;
+            dataGridViewRow.Cells["Fi"].Value = 180 / Math.PI * Fi;
+            dataGridViewRow.Cells["Teta"].Value = 180 / Math.PI * Teta;
 
         }
 

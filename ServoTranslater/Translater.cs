@@ -20,25 +20,26 @@ namespace ServoTranslater
 
         static public double Gamma(double x, double y, double z)
         {
-            double len = Math.Sqrt(x * x + y * y);
             double numerator;
             double denominator;
-            double underRoot = 0;
-            double temp1 = d * d + h * h + l * l - 2 * h * l - len * len - z * z;
-            double temp2 = d * d + h * h + l * l + 2 * h * l - len * len - z * z;
-            underRoot -= 4 * temp1 * temp2;
+            double underRoot;
+            denominator = d * d + h * h + 2 * h * l + l * l - x * x - y * y - z * z;
+            underRoot = d * d + h * h + 2 * h * l + l * l - x * x - y * y - z * z;
+            underRoot *= d * d + h * h - 2 * h * l + l * l - x * x - y * y - z * z;
+            underRoot *= (-4);
             underRoot += 16 * d * d * h * h;
-            double Root = Math.Sqrt(underRoot);
-            Root /= 2;
-            numerator = -2 * d * h - Root;
-            denominator = d * d + h * h + 2 * h * l + l * l - len * len - z * z;
+            double root = Math.Sqrt(underRoot);
+            numerator = root / 2 - 2 * d * h;
             double atan = Math.Atan2(numerator, denominator);
             return 2 * atan;
         }
 
         static public double Alpha(double y, double z, double gamma)
         {
-            double temp = (l +d/Math.Tan(gamma))* Math.Sin(gamma) / D(y, z);
+            
+            double tan = Math.Tan(gamma);
+            double sin = Math.Sin(gamma);
+            double temp = (l + d/tan)* sin / D(y, z);
             double angle = Math.Acos(temp);
             angle += Psi(y, z);
             return angle;
