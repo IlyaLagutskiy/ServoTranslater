@@ -11,6 +11,7 @@ namespace ServoTranslater
         public const double d = 6.59;
         public const double l = 130.65;
         public const double h = 149.34;
+        //155,93
 
         static public double Psi(double y, double z) => Math.Atan2(y, z);
 
@@ -36,7 +37,6 @@ namespace ServoTranslater
 
         static public double Alpha(double y, double z, double gamma)
         {
-            
             double tan = Math.Tan(gamma);
             double sin = Math.Sin(gamma);
             double temp = (l + d/tan)* sin / D(y, z);

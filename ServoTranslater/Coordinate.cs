@@ -7,16 +7,11 @@ using System.Windows.Forms;
 
 namespace ServoTranslater
 {
-    class Coordinate
+    class Coordinate : Pulses
     {
-        public double X { get; set; } = 0;
-        public double Y { get; set; } = 0;
-        public double Z { get; set; } = 0;
-
-        public double Alpha { get; private set; } = 0;
-        public double Gamma { get; private set; } = 0;
-        public double Fi { get; private set; } = 0;
-        public double Teta { get; set; } = 0;
+        public double X { get; private set; } = 0;
+        public double Y { get; private set; } = 0;
+        public double Z { get; private set; } = 0;
 
         public Coordinate()
         {
@@ -36,6 +31,10 @@ namespace ServoTranslater
             Gamma = Translater.Gamma(X, Y, Z);
             Alpha = Translater.Alpha(Y, Z, Gamma);
             Teta = Alpha - Gamma;
+            AlphaPW_Calc();
+            GammaPW_Calc();
+            TetaPW_Calc();
+            FiPW_Calc();
         }
             
         public void ReadGrid(DataGridView dataGridView)
@@ -46,7 +45,7 @@ namespace ServoTranslater
             dataGridView.Rows.Remove(dataGridView.Rows[0]);
         }
 
-        public void WriteGrid(DataGridView dataGridView)
+        public void WriteGrid(DataGridView dataGridView, RichTextBox richTextBox)
         {
             dataGridView.Rows.Add();
             DataGridViewRow dataGridViewRow = dataGridView.Rows[dataGridView.RowCount - 1];
@@ -54,6 +53,15 @@ namespace ServoTranslater
             dataGridViewRow.Cells["Gamma"].Value = 180 / Math.PI * Gamma;
             dataGridViewRow.Cells["Fi"].Value = 180 / Math.PI * Fi;
             dataGridViewRow.Cells["Teta"].Value = 180 / Math.PI * Teta;
+            dataGridViewRow.Cells["XX"].Value = X;
+            dataGridViewRow.Cells["YY"].Value = Y;
+            dataGridViewRow.Cells["ZZ"].Value = Z;
+            dataGridViewRow.Cells["AlphaPW"].Value = AlphaPW;
+            dataGridViewRow.Cells["GammaPW"].Value = GammaPW;
+            dataGridViewRow.Cells["FiPW"].Value = FiPW;
+            dataGridViewRow.Cells["TetaPW"].Value = TetaPW;
+            richTextBox.AppendText(Environment.NewLine + 
+                $"config[{dataGridView.RowCount - 1}] = (PositionConfig){{ {AlphaPW}, {GammaPW}, {TetaPW}, {FiPW} }};");
 
         }
 
