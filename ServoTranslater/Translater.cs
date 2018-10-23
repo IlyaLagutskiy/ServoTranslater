@@ -9,7 +9,7 @@ namespace ServoTranslater
     static class Translater
     {
         public const double d = 6.59;
-        public const double l = 130.65;
+        public const double l = 71;
         public const double h = 149.34;
         //155,93
 

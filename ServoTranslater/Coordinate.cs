@@ -13,12 +13,12 @@ namespace ServoTranslater
         public double Y { get; private set; } = 0;
         public double Z { get; private set; } = 0;
 
-        public Coordinate()
+        public Coordinate() : base()
         {
 
         }
         
-        public Coordinate(double x, double y, double z)
+        public Coordinate(double x, double y, double z) : base()
         {
             X = x;
             Y = y;

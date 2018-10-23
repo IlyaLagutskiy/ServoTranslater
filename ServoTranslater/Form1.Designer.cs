@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Z = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button2 = new System.Windows.Forms.Button();
             this.Gamma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Alpha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fi = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,6 +40,12 @@
             this.AlphaPW = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FiPW = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TetaPW = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Z = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button2 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -73,56 +73,6 @@
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.Size = new System.Drawing.Size(758, 297);
             this.dataGridView2.TabIndex = 6;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(954, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(85, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Translate";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.X,
-            this.Y,
-            this.Z});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(172, 297);
-            this.dataGridView1.TabIndex = 8;
-            // 
-            // X
-            // 
-            this.X.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.X.HeaderText = "X";
-            this.X.Name = "X";
-            // 
-            // Y
-            // 
-            this.Y.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Y.HeaderText = "Y";
-            this.Y.Name = "Y";
-            // 
-            // Z
-            // 
-            this.Z.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Z.HeaderText = "Z";
-            this.Z.Name = "Z";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(954, 315);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(85, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "To executer";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Gamma
             // 
@@ -200,6 +150,57 @@
             this.TetaPW.HeaderText = "TetaPW";
             this.TetaPW.Name = "TetaPW";
             this.TetaPW.ReadOnly = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(954, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(85, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Translate";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.X,
+            this.Y,
+            this.Z});
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(172, 297);
+            this.dataGridView1.TabIndex = 8;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // X
+            // 
+            this.X.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.X.HeaderText = "X";
+            this.X.Name = "X";
+            // 
+            // Y
+            // 
+            this.Y.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Y.HeaderText = "Y";
+            this.Y.Name = "Y";
+            // 
+            // Z
+            // 
+            this.Z.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Z.HeaderText = "Z";
+            this.Z.Name = "Z";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(954, 315);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(85, 23);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "To executer";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // richTextBox1
             // 
