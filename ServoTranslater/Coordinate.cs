@@ -9,50 +9,71 @@ namespace ServoTranslater
         public double Y { get; private set; }
         public double Z { get; private set; }
 
-        public Coordinate()
-        {
+        private readonly bool _isXYZ;
+        private readonly DataGridView _fromDataGridView;
+        private readonly DataGridView _toDataGridView;
+        private readonly ushort _position;
 
-        }
-        
-        public Coordinate(double x, double y, double z)
+        public Coordinate(bool isXYZ, DataGridView from, DataGridView to, ushort position)
         {
-            X = x;
-            Y = y;
-            Z = z;
+            _isXYZ = isXYZ;
+            _fromDataGridView = from;
+            _toDataGridView = to;
+            _position = position;
         }
 
         public new void Execute()
         {
-            Fi = Translater.Fi(X, Y);
-            Gamma = Translater.Gamma(X, Y, Z);
-            Alpha = Translater.Alpha(Y, Z, Gamma);
-            Teta = Alpha - Gamma;
+            ReadGrid();
+            if (_isXYZ)
+            {
+                Fi = Translater.Fi(X, Y);
+                Gamma = Translater.Gamma(X, Y, Z);
+                Alpha = Translater.Alpha(Y, Z, Gamma);
+                Teta = Alpha - Gamma;
+            }
             base.Execute();
+            WriteGrid();
         }
             
-        public void ReadGrid(DataGridView dataGridView)
+        public void ReadGrid()
         {
-            X = Convert.ToDouble(dataGridView.Rows[0].Cells["X"].Value);
-            Y = Convert.ToDouble(dataGridView.Rows[0].Cells["Y"].Value);
-            Z = Convert.ToDouble(dataGridView.Rows[0].Cells["Z"].Value);
-            dataGridView.Rows.Remove(dataGridView.Rows[0]);
+            if (_isXYZ)
+            {
+                X = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["X"].Value);
+                Y = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["Y"].Value);
+                Z = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["Z"].Value);
+            }
+            else
+            {
+                Alpha = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["Alpha"].Value) / 180 * Math.PI;
+                Gamma = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["Gamma"].Value) / 180 * Math.PI;
+                Teta = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["Teta"].Value) / 180 * Math.PI;
+                Fi = Convert.ToDouble(_fromDataGridView.Rows[0].Cells["Fi"].Value) / 180 * Math.PI;
+            }
         }
 
-        public void WriteGrid(DataGridView dataGridView)
+        public void WriteGrid()
         {
-            dataGridView.Rows.Add();
-            DataGridViewRow dataGridViewRow = dataGridView.Rows[dataGridView.RowCount - 1];
-            dataGridViewRow.Cells["Alpha"].Value = 180 / Math.PI * Alpha;
-            dataGridViewRow.Cells["Gamma"].Value = 180 / Math.PI * Gamma;
-            dataGridViewRow.Cells["Fi"].Value = 180 / Math.PI * Fi;
-            dataGridViewRow.Cells["Teta"].Value = 180 / Math.PI * Teta;
-            dataGridViewRow.Cells["XX"].Value = X;
-            dataGridViewRow.Cells["YY"].Value = Y;
-            dataGridViewRow.Cells["ZZ"].Value = Z;
-            dataGridViewRow.Cells["AlphaPW"].Value = AlphaPW;
-            dataGridViewRow.Cells["GammaPW"].Value = GammaPW;
-            dataGridViewRow.Cells["FiPW"].Value = FiPW;
-            dataGridViewRow.Cells["TetaPW"].Value = TetaPW;
+            DataGridViewRow from = _fromDataGridView.Rows[_position];
+            if (_isXYZ)
+            {
+                from.Cells["Alpha"].Value = 180 / Math.PI * Alpha;
+                from.Cells["Gamma"].Value = 180 / Math.PI * Gamma;
+                from.Cells["Teta"].Value = 180 / Math.PI * Teta;
+                from.Cells["Fi"].Value = 180 / Math.PI * Fi;
+            }
+            else
+            {
+                from.Cells["X"].Value = "NaN";
+                from.Cells["Y"].Value = "NaN";
+                from.Cells["Z"].Value = "Nan";
+            }
+            DataGridViewRow to = _toDataGridView.Rows[_position];
+            to.Cells["AlphaPW"].Value = AlphaPW;
+            to.Cells["GammaPW"].Value = GammaPW;
+            to.Cells["FiPW"].Value = FiPW;
+            to.Cells["TetaPW"].Value = TetaPW;
            
         }
 

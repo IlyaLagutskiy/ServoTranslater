@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ServoTranslater
 {
     public partial class MainForm : Form
     {
+        private bool _isXYZ = true;
+
         public MainForm()
         {
             InitializeComponent();
@@ -20,13 +15,17 @@ namespace ServoTranslater
         private void button1_Click(object sender, EventArgs e)
         {
 
-            Coordinate coordinate = new Coordinate();
+            var count = dataGridView1.RowCount - 1;
+            Coordinate[] coordinate = new Coordinate[count];
             dataGridView2.Rows.Clear();
-            while (dataGridView1.RowCount > 1)
+            for (ushort i = 0; i < count; i++)
             {
-                coordinate.ReadGrid(dataGridView1);
-                coordinate.Execute();
-                coordinate.WriteGrid(dataGridView2);
+                coordinate[i]= new Coordinate(_isXYZ, dataGridView1, dataGridView2, i);
+                dataGridView2.Rows.Add();
+            }
+            foreach (Coordinate c in coordinate)
+            {
+                c.Execute();
             }
             MessageBox.Show(@"Calculations executed!", @"Coordinate translation");
         }
@@ -45,7 +44,7 @@ namespace ServoTranslater
             try
             {
                 COM.Open();
-                COM.Write(byteArray, 0, 2*txBuffer.Count());
+                COM.Write(byteArray, 0, 2*txBuffer.Length);
             }
             catch (Exception ex)
             {
@@ -62,7 +61,7 @@ namespace ServoTranslater
 
         private static byte[] GetByteArray(ushort[] txBuffer)
         {
-            int length = 2 * txBuffer.Count();
+            int length = 2 * txBuffer.Length;
             byte[] bytes = new byte[length];
             for (int i = 0; i < length/2; i++)
             {
@@ -77,5 +76,34 @@ namespace ServoTranslater
             form.Show();
         }
 
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                dataGridView1.Columns[0].ReadOnly = false;
+                dataGridView1.Columns[1].ReadOnly = false;
+                dataGridView1.Columns[2].ReadOnly = false;
+                dataGridView1.Columns[3].ReadOnly = true;
+                dataGridView1.Columns[4].ReadOnly = true;
+                dataGridView1.Columns[5].ReadOnly = true;
+                _isXYZ = true;
+
+            }
+            else
+            {
+                dataGridView1.Columns[0].ReadOnly = true;
+                dataGridView1.Columns[1].ReadOnly = true;
+                dataGridView1.Columns[2].ReadOnly = true;
+                dataGridView1.Columns[3].ReadOnly = false;
+                dataGridView1.Columns[4].ReadOnly = false;
+                dataGridView1.Columns[5].ReadOnly = false;
+                _isXYZ = false;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
