@@ -10,30 +10,25 @@ namespace ServoTranslater
     {
         public double Alpha { get; protected set; } = 0;
         public double Gamma { get; protected set; } = 0;
-        public double Fi { get; protected set; } = 0;
         public double Teta { get; protected set; } = 0;
+        public double Fi { get; protected set; } = 0;
 
-        public double AlphaCorr { get; private set; } = 0;
-        public double GammaCorr { get; private set; } = 0;
-        public double FiCorr { get; private set; } = 0;
-        public double TetaCorr { get; private set; } = 0;
+        private double AlphaCorr { get; set; }
+        private double GammaCorr { get; set; }
+        private double TetaCorr { get; set; }
+        private double FiCorr { get; set; }
 
-        public double AlphaPW { get; private set; } = 0;
-        public double GammaPW { get; private set; } = 0;
-        public double FiPW { get; private set; } = 0;
-        public double TetaPW { get; private set; } = 0;
-
-        public short AlphaPWCorr { get; } = -16;
-        public short GammaPWCorr { get; } = +36;
-        public short FiPWCorr { get; } = 0;
-        public short TetaPWCorr { get; } = 0;
+        public double AlphaPW { get; private set; }
+        public double GammaPW { get; private set; }
+        public double TetaPW { get; private set; }
+        public double FiPW { get; private set; }
 
         public Pulses()
         {
             AlphaCorr = 45.0d / 180.0d * Math.PI;
             GammaCorr = 45.0d / 180.0d * Math.PI;
-            FiCorr = 45.0d / 180.0d * Math.PI;
             TetaCorr = 45.0d / 180.0d * Math.PI;
+            FiCorr = 45.0d / 180.0d * Math.PI;  
         }
 
         protected void AlphaPW_Calc()
@@ -41,7 +36,7 @@ namespace ServoTranslater
             double part = (Alpha - AlphaCorr)/ HSConfig.OperAngle;
             double width = part * (HSConfig.MaxPW - HSConfig.MinPW);
             double pw = HSConfig.MaxPW - width;
-            AlphaPW = Math.Round(pw) + AlphaPWCorr;
+            AlphaPW = Math.Round(pw) + CorrectionPW.Default.Alpha;
         }
 
         protected void GammaPW_Calc()
@@ -49,7 +44,7 @@ namespace ServoTranslater
             double part = (Gamma - GammaCorr)/ HSConfig.OperAngle;
             double width = part * (HSConfig.MaxPW - HSConfig.MinPW);
             double pw = HSConfig.MaxPW - width;
-            GammaPW = Math.Round(pw) + GammaPWCorr;
+            GammaPW = Math.Round(pw) + CorrectionPW.Default.Gamma;
         }
 
         protected void FiPW_Calc()
@@ -57,7 +52,7 @@ namespace ServoTranslater
             double part = (Fi - FiCorr)/ HDConfig.OperAngle;
             double width = part * (HDConfig.MaxPW - HDConfig.MinPW);
             double pw = width + HDConfig.MinPW;
-            FiPW = Math.Round(pw) + FiPWCorr;
+            FiPW = Math.Round(pw) + CorrectionPW.Default.Fi;
         }
 
         protected void TetaPW_Calc()
@@ -65,7 +60,15 @@ namespace ServoTranslater
             double part = (Teta + TetaCorr)/ HDConfig.OperAngle;
             double width = part * (HDConfig.MaxPW - HDConfig.MinPW);
             double pw = width + HDConfig.MinPW;
-            TetaPW = Math.Round(pw) + TetaPWCorr;
+            TetaPW = Math.Round(pw) + CorrectionPW.Default.Teta;
+        }
+
+        public void Execute()
+        {
+            AlphaPW_Calc();
+            GammaPW_Calc();
+            TetaPW_Calc();
+            FiPW_Calc();
         }
 
     }

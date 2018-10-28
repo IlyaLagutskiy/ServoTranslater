@@ -1,40 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ServoTranslater
 {
     class Coordinate : Pulses
     {
-        public double X { get; private set; } = 0;
-        public double Y { get; private set; } = 0;
-        public double Z { get; private set; } = 0;
+        public double X { get; private set; }
+        public double Y { get; private set; }
+        public double Z { get; private set; }
 
-        public Coordinate() : base()
+        public Coordinate()
         {
 
         }
         
-        public Coordinate(double x, double y, double z) : base()
+        public Coordinate(double x, double y, double z)
         {
             X = x;
             Y = y;
             Z = z;
         }
 
-        public void ExecuteCalculations ()
+        public new void Execute()
         {
             Fi = Translater.Fi(X, Y);
             Gamma = Translater.Gamma(X, Y, Z);
             Alpha = Translater.Alpha(Y, Z, Gamma);
             Teta = Alpha - Gamma;
-            AlphaPW_Calc();
-            GammaPW_Calc();
-            TetaPW_Calc();
-            FiPW_Calc();
+            base.Execute();
         }
             
         public void ReadGrid(DataGridView dataGridView)
@@ -45,7 +38,7 @@ namespace ServoTranslater
             dataGridView.Rows.Remove(dataGridView.Rows[0]);
         }
 
-        public void WriteGrid(DataGridView dataGridView, RichTextBox richTextBox)
+        public void WriteGrid(DataGridView dataGridView)
         {
             dataGridView.Rows.Add();
             DataGridViewRow dataGridViewRow = dataGridView.Rows[dataGridView.RowCount - 1];
@@ -60,9 +53,7 @@ namespace ServoTranslater
             dataGridViewRow.Cells["GammaPW"].Value = GammaPW;
             dataGridViewRow.Cells["FiPW"].Value = FiPW;
             dataGridViewRow.Cells["TetaPW"].Value = TetaPW;
-            richTextBox.AppendText(Environment.NewLine + 
-                $"config[{dataGridView.RowCount - 1}] = (PositionConfig){{ {AlphaPW}, {GammaPW}, {TetaPW}, {FiPW} }};");
-
+           
         }
 
     }

@@ -8,38 +8,35 @@ namespace ServoTranslater
 {
     static class Translater
     {
-        public const double d = 6.59;
-        public const double l = 71;
-        public const double h = 149.34;
+        public const double D = 6.59;
+        public const double L = 71;
+        public const double H = 149.34;
         //155,93
 
-        static public double Psi(double y, double z) => Math.Atan2(y, z);
+        public static double Psi(double y, double z) => Math.Atan2(y, z);
 
-        static public double D(double y, double z) => Math.Sqrt(y * y + z * z);
+        public static double Dist(double y, double z) => Math.Sqrt(y * y + z * z);
 
-        static public double Fi(double x, double y) => Math.Atan2(y, x);
+        public static double Fi(double x, double y) => Math.Atan2(y, x);
 
-        static public double Gamma(double x, double y, double z)
+        public static double Gamma(double x, double y, double z)
         {
-            double numerator;
-            double denominator;
-            double underRoot;
-            denominator = d * d + h * h + 2 * h * l + l * l - x * x - y * y - z * z;
-            underRoot = d * d + h * h + 2 * h * l + l * l - x * x - y * y - z * z;
-            underRoot *= d * d + h * h - 2 * h * l + l * l - x * x - y * y - z * z;
+            var denominator = D * D + H * H + 2 * H * L + L * L - x * x - y * y - z * z;
+            var underRoot = D * D + H * H + 2 * H * L + L * L - x * x - y * y - z * z;
+            underRoot *= D * D + H * H - 2 * H * L + L * L - x * x - y * y - z * z;
             underRoot *= (-4);
-            underRoot += 16 * d * d * h * h;
+            underRoot += 16 * D * D * H * H;
             double root = Math.Sqrt(underRoot);
-            numerator = root / 2 - 2 * d * h;
+            var numerator = root / 2 - 2 * D * H;
             double atan = Math.Atan2(numerator, denominator);
             return 2 * atan;
         }
 
-        static public double Alpha(double y, double z, double gamma)
+        public static double Alpha(double y, double z, double gamma)
         {
             double tan = Math.Tan(gamma);
             double sin = Math.Sin(gamma);
-            double temp = (l + d/tan)* sin / D(y, z);
+            double temp = (L + D/tan)* sin / Dist(y, z);
             double angle = Math.Acos(temp);
             angle += Psi(y, z);
             return angle;
